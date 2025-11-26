@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,8 +6,9 @@ using UnityEngine;
 public class GameAreaManager : MonoBehaviour
 {
     //This script handles the GameArea size to match the MainCamera FOV;
+    public static event Action OnChangedGameAreaScale;
 
-    [Header("Required Components")]
+    [Header("Assignable Components")]
     [SerializeField] private Transform gameAreaTransf;
     [SerializeField] private Camera mainCam;
 
@@ -52,6 +54,8 @@ public class GameAreaManager : MonoBehaviour
 
         if (gameAreaTransf != null)
         gameAreaTransf.localScale = new Vector3(gameAreaWidth, gameAreaHeight, 0f);
+
+        OnChangedGameAreaScale?.Invoke();
 
         print($"Rescaled GameArea size to H: {gameAreaHeight}, W: {gameAreaWidth}");
     }
