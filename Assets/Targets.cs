@@ -1,13 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.Rendering;
 using UnityEngine;
 
-public class Targets : MonoBehaviour
+public class Targets : MonoBehaviour 
 {
     [SerializeField] private ScriptableTarget targetData;
-    [SerializeField] private Transform targetTransf;
-    [SerializeField] private GameObject targetPrefab;
+    private GameObject targetPrefab;
     private float timer;
 
     private void OnEnable()
@@ -18,14 +16,24 @@ public class Targets : MonoBehaviour
     private void Update()
     {
         timer -= Time.deltaTime;
+        if (timer <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Initialize()
     {
-        if (targetData != null && targetTransf != null)
+        if (targetData != null)
         {
-            transform.localScale = targetData.DefaultTargetSize;
+            targetPrefab = targetData.TargetPrefab;
             timer = targetData.DefaultTargetTimer;
         }
     }
+
+    public GameObject GetTargetPrefab()
+    {
+        return targetData.TargetPrefab;
+    }
+
 }

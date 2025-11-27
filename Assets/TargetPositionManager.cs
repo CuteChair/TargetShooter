@@ -12,26 +12,41 @@ public class TargetPositionManager : MonoBehaviour
 
     public Transform cubeTester; //for debug only
 
-    public int numberOfTargets;
-    private Targets[] targets;
+    [SerializeField] private Targets[] targets;
 
     Vector3 Max;
     Vector3 Min;
-
     private void OnEnable()
     {
         GameAreaManager.OnChangedGameAreaScale += UpdateGameAreaSize;
+        ClickOnTarget.OnClickedTarget += ChangeTargetPosition;
     }
 
     private void OnDisable()
     {
         GameAreaManager.OnChangedGameAreaScale -= UpdateGameAreaSize;
+        ClickOnTarget.OnClickedTarget -= ChangeTargetPosition;
     }
     private void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            InitializeTargets(targets);
+        }     
     }
 
+    private void InitializeTargets(Targets[] targets)
+    {
+        if (targets != null)
+        {
+            foreach (Targets target in targets)
+            {
+                GenerateRandomPosition(target);
+                Instantiate(target.GetTargetPrefab(), GenerateRandomPosition(target), Quaternion.identity);
+            }
+        }
+        
+    }
     private void UpdateGameAreaSize()
     {
         if (gameAreaTransf != null)
@@ -40,9 +55,20 @@ public class TargetPositionManager : MonoBehaviour
             FindGameAreaMin(gameAreaTransf.position);
         }
     }
-    private void GenerateRandomPosition(Targets target)
+
+    private void ChangeTargetPosition(Targets target)
     {
-        Vector3 center = gameAreaTransf.position;
+        target.transform.position = GenerateRandomPosition(target);
+    }
+    private Vector3 GenerateRandomPosition(Targets target)
+    {
+        float halfSizeX = target.transform.localScale.x * 0.5f;
+        float halfSizeY = target.transform.localScale.y * 0.5f;
+        float x = Random.Range(Min.x + halfSizeX, Max.x - halfSizeX);
+        float y = Random.Range(Min.y + halfSizeY, Max.y - halfSizeY);
+        Vector3 newPos = new Vector3(x, y, 0);
+
+        return newPos;
         
     }
 
