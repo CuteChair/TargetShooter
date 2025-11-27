@@ -57,6 +57,6 @@ public class GameAreaManager : MonoBehaviour
 
         OnChangedGameAreaScale?.Invoke();
 
-        print($"Rescaled GameArea size to H: {gameAreaHeight}, W: {gameAreaWidth}");
+        //print($"Rescaled GameArea size to H: {gameAreaHeight}, W: {gameAreaWidth}");
     }
 }

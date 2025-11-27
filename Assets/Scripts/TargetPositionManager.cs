@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using System;
 using UnityEngine;
-using UnityEngine.U2D;
+
 
 public class TargetPositionManager : MonoBehaviour
 {
@@ -20,14 +18,12 @@ public class TargetPositionManager : MonoBehaviour
     {
         GameAreaManager.OnChangedGameAreaScale += UpdateGameAreaSize;
         ClickOnTarget.OnClickedTarget += ChangeTargetPosition;
-        ClickOnTarget.OnClickedTarget += AddTimeToTarget;
     }
 
     private void OnDisable()
     {
         GameAreaManager.OnChangedGameAreaScale -= UpdateGameAreaSize;
         ClickOnTarget.OnClickedTarget -= ChangeTargetPosition;
-        ClickOnTarget.OnClickedTarget -= AddTimeToTarget;
     }
     private void Update()
     {
@@ -63,16 +59,12 @@ public class TargetPositionManager : MonoBehaviour
         target.transform.position = GenerateRandomPosition(target);
     }
 
-    private void AddTimeToTarget(Targets target)
-    {
-        target.AddToTimer(10);
-    }
     private Vector3 GenerateRandomPosition(Targets target)
     {
         float halfSizeX = target.transform.localScale.x * 0.5f;
         float halfSizeY = target.transform.localScale.y * 0.5f;
-        float x = Random.Range(Min.x + halfSizeX, Max.x - halfSizeX);
-        float y = Random.Range(Min.y + halfSizeY, Max.y - halfSizeY);
+        float x = UnityEngine.Random.Range(Min.x + halfSizeX, Max.x - halfSizeX);
+        float y = UnityEngine.Random.Range(Min.y + halfSizeY, Max.y - halfSizeY);
         Vector3 newPos = new Vector3(x, y, 0);
 
         return newPos;
