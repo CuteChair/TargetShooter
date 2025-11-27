@@ -36,4 +36,8 @@ public class Targets : MonoBehaviour
         return targetData.TargetPrefab;
     }
 
+    public void AddToTimer(float amout)
+    {
+        timer += amout;
+    }
 }

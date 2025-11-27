@@ -20,12 +20,14 @@ public class TargetPositionManager : MonoBehaviour
     {
         GameAreaManager.OnChangedGameAreaScale += UpdateGameAreaSize;
         ClickOnTarget.OnClickedTarget += ChangeTargetPosition;
+        ClickOnTarget.OnClickedTarget += AddTimeToTarget;
     }
 
     private void OnDisable()
     {
         GameAreaManager.OnChangedGameAreaScale -= UpdateGameAreaSize;
         ClickOnTarget.OnClickedTarget -= ChangeTargetPosition;
+        ClickOnTarget.OnClickedTarget -= AddTimeToTarget;
     }
     private void Update()
     {
@@ -59,6 +61,11 @@ public class TargetPositionManager : MonoBehaviour
     private void ChangeTargetPosition(Targets target)
     {
         target.transform.position = GenerateRandomPosition(target);
+    }
+
+    private void AddTimeToTarget(Targets target)
+    {
+        target.AddToTimer(10);
     }
     private Vector3 GenerateRandomPosition(Targets target)
     {
