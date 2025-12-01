@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,26 +17,29 @@ public class ScoreManager : MonoBehaviour
     
     private int currentStreakProgress;
 
+    [SerializeField] private int inRowNeeded;
+    [SerializeField] private int maxStreak;
+
     private void Awake()
     {
         score = 0;
         streakModifier = 1;
         currentStreakProgress = 0;
         UpdateScoreText(0);
-        UpdateStreakBar();
+        UpdateStreakUI();
     }
 
     private void OnEnable()
     {
         TargetStage.OnAddScore += AddScore;
-        ClickOnTarget.OnAddToStreak += AddToStreak;
+        ClickOnTarget.OnAddToStreak += AddToStreakProgress;
         ClickOnTarget.OnBreakStreak += BreakStreak;
     }
 
     private void OnDisable()
     {
         TargetStage.OnAddScore -= AddScore;
-        ClickOnTarget.OnAddToStreak -= AddToStreak;
+        ClickOnTarget.OnAddToStreak -= AddToStreakProgress;
         ClickOnTarget.OnBreakStreak -= BreakStreak;
     }
     private void AddScore(float amount)
@@ -51,56 +55,37 @@ public class ScoreManager : MonoBehaviour
         ScoreText.text = newScore.ToString();
     }
 
-    private void AddToStreak()
+    private void AddToStreakProgress()
     {
         currentStreakProgress++;
-        UpdateStreakBar();
-
-        if (currentStreakProgress >= 8)
-        {
-            streakModifier = 2;
-            UpdateStreakText();
-            UpdateStreakBar();
-        }
-        else if (currentStreakProgress >= 16)
-        {
-            streakModifier = 3;
-            UpdateStreakText();
-            UpdateStreakBar();
-        }
-        else if (currentStreakProgress >= 24)
-        {
-            streakModifier = 4;
-            UpdateStreakText();
-            UpdateStreakBar();
-        }
+   
+        CheckForStreak();
+        UpdateStreakUI();
     }
 
+    private void CheckForStreak()
+    {
+        if (currentStreakProgress == inRowNeeded)
+        {
+            streakModifier++;
+
+            if (streakModifier >= maxStreak)
+                streakModifier = maxStreak;
+
+            currentStreakProgress = 0;
+        }
+    }
     private void BreakStreak()
     {
         currentStreakProgress = 0;
         streakModifier = 1;
-        UpdateStreakText();
+        UpdateStreakUI();
     }
 
-    private void UpdateStreakText()
+    private void UpdateStreakUI()
     {
         StreakText.text = streakModifier.ToString();
-    }
-    private void UpdateStreakBar()
-    {
-        
-        if (currentStreakProgress < 8)
-        {
-            streakBar.fillAmount = currentStreakProgress / 8;
-        }
-        else if (currentStreakProgress >= 8)
-        {
-            streakBar.fillAmount = currentStreakProgress / 16;
-        }
-        else if (currentStreakProgress >= 16)
-        {
-            streakBar.fillAmount = currentStreakProgress / 24;
-        }
+        streakBar.fillAmount = (float)currentStreakProgress / inRowNeeded;
+
     }
 }

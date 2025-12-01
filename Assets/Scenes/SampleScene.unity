@@ -424,6 +424,8 @@ MonoBehaviour:
   ScoreText: {fileID: 1219437036}
   StreakText: {fileID: 947564505}
   streakBar: {fileID: 966107302}
+  inRowNeeded: 8
+  maxStreak: 5
 --- !u!4 &927858290
 Transform:
   m_ObjectHideFlags: 0
