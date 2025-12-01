@@ -8,4 +8,9 @@ public class ScriptableTarget : ScriptableObject
     public GameObject TargetPrefab;
     public Vector3 DefaultTargetSize;
     public float DefaultTargetTimer;
+    public float MaxLifeSpan;
+    public float MaxTimeBuffer;
+    public float MinTimeBuffer;
+    public float ReduceTimeBuffer;
+
 }

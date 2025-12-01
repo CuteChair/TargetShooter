@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c482cba674c17dd47840a71ef088875a, type: 3}
   m_Name: DefaultTargetData
   m_EditorClassIdentifier: 
-  TargetPrefab: {fileID: 5029700091540746005, guid: 61ff23a3c2fb2454c867a7d8e0134926, type: 3}
+  TargetPrefab: {fileID: 8165695387176300434, guid: 9a1ee2c0423bf0a4f9641fdae3999aef, type: 3}
   DefaultTargetSize: {x: 1, y: 1, z: 0}
   DefaultTargetTimer: 10
+  MaxLifeSpan: 10
+  MaxTimeBuffer: 8
+  MinTimeBuffer: 0
+  ReduceTimeBuffer: 0.1

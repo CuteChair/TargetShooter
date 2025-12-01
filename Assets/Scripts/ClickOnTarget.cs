@@ -6,9 +6,35 @@ using UnityEngine;
 public class ClickOnTarget : MonoBehaviour
 {
     public static event Action<Targets> OnClickedTarget;
-    private void OnMouseDown()
+    public static event Action OnAddToStreak;
+    public static event Action OnBreakStreak;
+
+    private Targets clickedTarget;
+    private void Update()
     {
-        Targets currentTarget = GetComponent<Targets>();
-        OnClickedTarget?.Invoke(currentTarget);
+        if (Input.GetMouseButtonDown(0))
+        {
+            CastRay();
+        }
+    }
+
+    private void CastRay()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+
+        if (hit.collider != null)
+        {
+            clickedTarget = hit.collider.GetComponent<Targets>();
+
+            if (clickedTarget != null)
+            {
+                OnClickedTarget?.Invoke(clickedTarget);
+                OnAddToStreak?.Invoke();
+
+            }
+        }
+        else
+            OnBreakStreak?.Invoke();
+
     }
 }

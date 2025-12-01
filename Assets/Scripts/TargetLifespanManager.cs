@@ -7,20 +7,25 @@ public class TargetLifespanManager : MonoBehaviour
     [SerializeField] private ScriptableTarget targetData;
     private Targets currentTarget;
     private float timer;
+    private float timerBuffer;
 
     private void OnEnable()
     {
         ClickOnTarget.OnClickedTarget += AddTime;
+        TargetStage.OnDownScaleTarget += UpdateTimebuffer;
     }
 
     private void OnDisable()
     {
         ClickOnTarget.OnClickedTarget -= AddTime;   
+        TargetStage.OnDownScaleTarget -= UpdateTimebuffer;
     }
 
     private void Awake()
     {
         timer = targetData.DefaultTargetTimer;
+        timerBuffer += targetData.MaxTimeBuffer;
+
 
         currentTarget = GetComponent<Targets>();
     }
@@ -38,8 +43,24 @@ public class TargetLifespanManager : MonoBehaviour
     {
         if (target == currentTarget)
         {
-            print("Adding time to : " + gameObject.name);
-            timer += 5f;
+            //print("Adding time to : " + gameObject.name);
+            timer += timerBuffer;
+
+            if (timer >= targetData.MaxLifeSpan)
+            {
+                timer = targetData.MaxLifeSpan; 
+            }
+
+            //print("Remaining Time : " + timer);
+        }
+    }
+
+    private void UpdateTimebuffer()
+    {
+        if (timerBuffer > targetData.MinTimeBuffer)
+        {
+            timerBuffer -= targetData.ReduceTimeBuffer;
+            //print("Time buffer : " + timerBuffer);
         }
     }
 
