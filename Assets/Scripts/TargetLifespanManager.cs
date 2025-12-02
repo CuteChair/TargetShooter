@@ -12,13 +12,13 @@ public class TargetLifespanManager : MonoBehaviour
     private void OnEnable()
     {
         ClickOnTarget.OnClickedTarget += AddTime;
-        TargetStage.OnDownScaleTarget += UpdateTimebuffer;
+        TargetStage.OnTargetNewStage += UpdateTimebuffer;
     }
 
     private void OnDisable()
     {
         ClickOnTarget.OnClickedTarget -= AddTime;   
-        TargetStage.OnDownScaleTarget -= UpdateTimebuffer;
+        TargetStage.OnTargetNewStage -= UpdateTimebuffer;
     }
 
     private void Awake()

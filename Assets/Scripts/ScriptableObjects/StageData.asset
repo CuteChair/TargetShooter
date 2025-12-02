@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b51378b1d7bfc74dbdbf678df490924, type: 3}
   m_Name: StageData
   m_EditorClassIdentifier: 
-  MaxScale: 0.8
+  MinScale: 0.4
   ScaleModifier: 0.05
-  MaxPoints: 20
+  MaxPoints: 100
   MinPoints: 1
