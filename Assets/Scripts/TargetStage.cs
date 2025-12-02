@@ -15,7 +15,7 @@ public class TargetStage : MonoBehaviour
 
     private Targets currentTarget;
 
-    private int numberOfStages => Mathf.CeilToInt(stageData.MaxScale / stageData.ScaleModifier);
+    private int numberOfStages => Mathf.CeilToInt(stageData.MinScale / stageData.ScaleModifier);
     private int currentStage;
 
     private float currentPoint;
@@ -44,7 +44,7 @@ public class TargetStage : MonoBehaviour
     {
         if (currentTarget != null && target == currentTarget)
         {
-            if (currentScale < stageData.MaxScale)
+            if (currentScale < stageData.MinScale)    //This line is probably why the score is not counting up after a certain point. When the object reaches min scale this becomes false
             {
                 PointsAllowed();
                 DownScaleTarget();
@@ -54,6 +54,7 @@ public class TargetStage : MonoBehaviour
 
     private void DownScaleTarget()
     {
+        //This method needs to be refactored because its confusing and not really logical : instead of multiplying scale modif then substracting it just subtract it.
         float tLocalScaleX = transform.localScale.x;
         float tLocalScaleY = transform.localScale.y;
 

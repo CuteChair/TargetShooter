@@ -15,7 +15,7 @@ MonoBehaviour:
   TargetPrefab: {fileID: 8165695387176300434, guid: 9a1ee2c0423bf0a4f9641fdae3999aef, type: 3}
   DefaultTargetSize: {x: 1, y: 1, z: 0}
   DefaultTargetTimer: 10
-  MaxLifeSpan: 10
+  MaxLifeSpan: 1000000
   MaxTimeBuffer: 8
   MinTimeBuffer: 0
   ReduceTimeBuffer: 0.1

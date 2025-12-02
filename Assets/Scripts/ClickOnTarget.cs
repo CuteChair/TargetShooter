@@ -28,7 +28,9 @@ public class ClickOnTarget : MonoBehaviour
 
             if (clickedTarget != null)
             {
+                print("Clicked on target");
                 OnClickedTarget?.Invoke(clickedTarget);
+
                 OnAddToStreak?.Invoke();
 
             }
