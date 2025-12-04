@@ -44,16 +44,16 @@ public class ScoreManager : MonoBehaviour
     }
     private void AddScore(float amount)
     {
-        print("Adding Score");
+       // print("Adding Score");
         score += amount * streakModifier;
         int scoreRepresentation = Mathf.FloorToInt(score);
         UpdateScoreText(scoreRepresentation);
-        print("Score Representation : " + scoreRepresentation);
+       // print("Score Representation : " + scoreRepresentation);
     }
     
     private void UpdateScoreText(int newScore)
     {
-        print("Add score to text");
+        //print("Add score to text");
         if (ScoreText != null)
         ScoreText.text = newScore.ToString();
     }
