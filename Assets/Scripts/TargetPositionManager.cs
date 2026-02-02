@@ -14,6 +14,8 @@ public class TargetPositionManager : MonoBehaviour
 
     Vector3 Max;
     Vector3 Min;
+
+    private bool areTargetInitialized = false;
     private void OnEnable()
     {
         GameAreaManager.OnChangedGameAreaScale += UpdateGameAreaSize;
@@ -25,12 +27,16 @@ public class TargetPositionManager : MonoBehaviour
         GameAreaManager.OnChangedGameAreaScale -= UpdateGameAreaSize;
         ClickOnTarget.OnClickedTarget -= ChangeTargetPosition;
     }
+
+    private void Start()
+    {
+        
+    }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
+        if (!areTargetInitialized)
             InitializeTargets(targets);
-        }     
+      
     }
 
     private void InitializeTargets(Targets[] targets)
@@ -43,6 +49,8 @@ public class TargetPositionManager : MonoBehaviour
                 Instantiate(target.GetTargetPrefab(), GenerateRandomPosition(target), Quaternion.identity);
             }
         }
+
+        areTargetInitialized = true;
         
     }
     private void UpdateGameAreaSize()
