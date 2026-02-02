@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
+    public static ScoreManager Instance;
+
     [SerializeField] private TextMeshProUGUI ScoreText;
     [SerializeField] private TextMeshProUGUI StreakText;
     [SerializeField] private Image streakBar;
@@ -22,6 +24,10 @@ public class ScoreManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null)
+            Instance = this;
+
+
         score = 0;
         streakModifier = 1;
         currentStreakProgress = 0;
@@ -90,5 +96,10 @@ public class ScoreManager : MonoBehaviour
         StreakText.text = streakModifier.ToString();
         streakBar.fillAmount = (float)currentStreakProgress / inRowNeeded;
 
+    }
+
+    public string RequestFinalScore()
+    {
+        return ScoreText.text;
     }
 }

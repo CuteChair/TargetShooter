@@ -36,6 +36,7 @@ public class TargetLifespanManager : MonoBehaviour
         if (timer <= 0)
         {
             Destroy(gameObject);
+            GameManager.Instance.OnRemovedTarget();
         }
     }
 

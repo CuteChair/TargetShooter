@@ -69,7 +69,7 @@ public class TargetStage : MonoBehaviour
     private void UpdateCurrentStage()
     {
             currentStage++;
-            print("Stage " + currentStage + " of " + numberOfStages);
+            //print("Stage " + currentStage + " of " + numberOfStages);
             OnTargetNewStage?.Invoke();
     }
 

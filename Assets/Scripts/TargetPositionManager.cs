@@ -41,17 +41,20 @@ public class TargetPositionManager : MonoBehaviour
 
     private void InitializeTargets(Targets[] targets)
     {
+        int targetCount = 0; 
+
         if (targets != null)
         {
             foreach (Targets target in targets)
             {
                 GenerateRandomPosition(target);
                 Instantiate(target.GetTargetPrefab(), GenerateRandomPosition(target), Quaternion.identity);
+                targetCount++;
             }
         }
 
         areTargetInitialized = true;
-        
+        GameManager.Instance.SetTargetCount(targetCount);
     }
     private void UpdateGameAreaSize()
     {
