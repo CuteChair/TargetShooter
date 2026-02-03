@@ -19,6 +19,12 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI finalScoreText;
 
+    [SerializeField]
+    private TextMeshProUGUI highScoreText;
+
+    [SerializeField]
+    private ScriptableHighScore highScoreSO;
+
     private void Awake()
     {
         if (Instance == null)
@@ -44,12 +50,22 @@ public class GameManager : MonoBehaviour
 
     private void OnGameEnded()
     {
+        int finalScore = ScoreManager.Instance.RequestFinalScore();
+
         if (gameOverCanvas != null)
         {
             gameOverCanvas.SetActive(true);
             scoreCanvas.SetActive(false);
 
-            finalScoreText.text = ($"Score : {ScoreManager.Instance.RequestFinalScore()}");
+            finalScoreText.text = ($"Score : {finalScore.ToString()}");
+
+            if (highScoreSO != null)
+            {
+                highScoreSO.CompareScore(finalScore);
+            }
+
+            if (highScoreText != null)
+                highScoreText.text = ("High score : " + highScoreSO.CurrentHighScore.ToString());
         }
     }
 

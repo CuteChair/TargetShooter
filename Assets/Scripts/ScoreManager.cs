@@ -98,8 +98,10 @@ public class ScoreManager : MonoBehaviour
 
     }
 
-    public string RequestFinalScore()
+    public int RequestFinalScore()
     {
-        return ScoreText.text;
+        int currentScore = Mathf.FloorToInt(score);
+
+        return currentScore;
     }
 }
