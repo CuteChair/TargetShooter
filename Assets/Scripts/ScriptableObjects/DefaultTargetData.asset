@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DefaultTargetData
   m_EditorClassIdentifier: 
   TargetPrefab: {fileID: 8165695387176300434, guid: 9a1ee2c0423bf0a4f9641fdae3999aef, type: 3}
-  DefaultTargetSize: {x: 1, y: 1, z: 0}
+  DefaultTargetSize: {x: 4, y: 4, z: 0}
   DefaultTargetTimer: 10
   MaxLifeSpan: 20
   MaxTimeBuffer: 8

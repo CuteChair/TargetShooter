@@ -18,13 +18,13 @@ public class TargetPositionManager : MonoBehaviour
     private bool areTargetInitialized = false;
     private void OnEnable()
     {
-        GameAreaManager.OnChangedGameAreaScale += UpdateGameAreaSize;
+        GameAreaManager.OnInitGameArea += SetMinMax;
         ClickOnTarget.OnClickedTarget += ChangeTargetPosition;
     }
 
     private void OnDisable()
     {
-        GameAreaManager.OnChangedGameAreaScale -= UpdateGameAreaSize;
+        GameAreaManager.OnInitGameArea -= SetMinMax;
         ClickOnTarget.OnClickedTarget -= ChangeTargetPosition;
     }
 
@@ -38,7 +38,13 @@ public class TargetPositionManager : MonoBehaviour
             InitializeTargets(targets);
       
     }
+    private void SetMinMax(Vector3 min, Vector3 max)
+    {
+        print($"Setting min : {min} | max : {max}");
 
+        Min = min;
+        Max = max;
+    }
     private void InitializeTargets(Targets[] targets)
     {
         int targetCount = 0; 
@@ -47,8 +53,10 @@ public class TargetPositionManager : MonoBehaviour
         {
             foreach (Targets target in targets)
             {
-                GenerateRandomPosition(target);
-                Instantiate(target.GetTargetPrefab(), GenerateRandomPosition(target), Quaternion.identity);
+                Vector3 newPos = GenerateRandomPosition(target, Min, Max);
+
+                //print(" Generated position : " + newPos);
+                Instantiate(target.GetTargetPrefab(), newPos, Quaternion.identity);
                 targetCount++;
             }
         }
@@ -60,39 +68,27 @@ public class TargetPositionManager : MonoBehaviour
     {
         if (gameAreaTransf != null)
         {
-            FindGameAreaMax(gameAreaTransf.position);
-            FindGameAreaMin(gameAreaTransf.position);
+            //FindGameAreaMax(gameAreaTransf.position);
+            //FindGameAreaMin(gameAreaTransf.position);
         }
     }
 
     private void ChangeTargetPosition(Targets target)
     {
-        target.transform.position = GenerateRandomPosition(target);
+        target.transform.position = GenerateRandomPosition(target, Min, Max);
     }
 
-    private Vector3 GenerateRandomPosition(Targets target)
+    private Vector3 GenerateRandomPosition(Targets target, Vector3 min, Vector3 max)
     {
         float halfSizeX = target.transform.localScale.x * 0.5f;
         float halfSizeY = target.transform.localScale.y * 0.5f;
-        float x = UnityEngine.Random.Range(Min.x + halfSizeX, Max.x - halfSizeX);
-        float y = UnityEngine.Random.Range(Min.y + halfSizeY, Max.y - halfSizeY);
+        float x = UnityEngine.Random.Range(min.x + halfSizeX, max.x - halfSizeX);
+        float y = UnityEngine.Random.Range(min.y + halfSizeY, max.y - halfSizeY);
         Vector3 newPos = new Vector3(x, y, 0);
 
         return newPos;
         
     }
 
-    private void FindGameAreaMax(Vector3 center)
-    {
-        float maxX = center.y + (gameAreaTransf.localScale.x * 0.5f);
-        float maxY = center.x + (gameAreaTransf.localScale.y * 0.5f);
-        Max = new Vector3(maxX, maxY, 0f);
-    }
-
-    private void FindGameAreaMin(Vector3 center)
-    {
-        float minX = -1f * (center.y + (gameAreaTransf.localScale.x * 0.5f));
-        float minY = -1f * (center.x + (gameAreaTransf.localScale.y * 0.5f));
-        Min = new Vector3(minX, minY, 0f);
-    }
+   
 }
