@@ -12,45 +12,46 @@ public class SFXManager : MonoBehaviour
     private void OnEnable()
     {
         ClickOnTarget.OnClickAddSFX += CreateExplosionAtPos;
+        //Explosions.OnEndExplosion += DisableCurrentExplosion;
     }
 
     private void OnDisable()
     {
         ClickOnTarget.OnClickAddSFX -= CreateExplosionAtPos;
+        //Explosions.OnEndExplosion += DisableCurrentExplosion;
     }
 
     private void CreateExplosionAtPos(Vector3 pos, Vector3 scale)
     {
-        //if (explosionPool.Count > 0)
-        //{
-        //    for (int i = 0; i < explosionPool.Count; i++)
-        //    {
-        //        if (!explosionPool[i].activeSelf)
-        //        {
-        //            explosionPool[i].SetActive(true);
-        //            explosionPool[i].transform.position = pos;
-        //            explosionPool[i].transform.localScale = scale;
+        if(explosionPool.Count > 0)
+        {
+            for (int i = 0; i < explosionPool.Count; i++)
+            {
+                if (!explosionPool[i].activeSelf)
+                {
+                    explosionPool[i].transform.position = pos;
+                    explosionPool[i].transform.localScale = scale;
+                    explosionPool[i].SetActive(true);
 
-        //            return;
-        //        }
+                    print("Reused : " + explosionPool[i].name);
 
-        //        GameObject NewExplosionAnim = ExplosionAnimation;
-        //        NewExplosionAnim.transform.localScale = scale;
+                    return;
+                }
+            }
+        }
 
-        //        Instantiate(NewExplosionAnim, pos, Quaternion.identity);
 
-        //        explosionPool.Add(NewExplosionAnim);
 
-        //    }
-        //}
-        //else
-        //{
-            GameObject NewExplosionAnim = ExplosionAnimation;
-            NewExplosionAnim.transform.localScale = scale;
+       GameObject newExplosion = Instantiate(ExplosionAnimation, pos, Quaternion.identity);
+       newExplosion.transform.localScale = scale;
 
-            Instantiate(NewExplosionAnim, pos, Quaternion.identity);
+       explosionPool.Add(newExplosion);
 
-            explosionPool.Add(NewExplosionAnim);
+        print("No available explosion, created one. Explosion count : " + explosionPool.Count);
+
+            //explosionPool.Add(NewExplosionAnim);
        // }
     }
+
+
 }
