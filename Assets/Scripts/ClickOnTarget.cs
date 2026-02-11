@@ -6,6 +6,7 @@ using UnityEngine;
 public class ClickOnTarget : MonoBehaviour
 {
     public static event Action<Vector3, Vector3> OnClickAddSFX;
+    public static event Action<Vector3> OnClickAddPointsEffect;
     public static event Action<Targets> OnClickedTarget;
     public static event Action OnAddToStreak;
     public static event Action OnBreakStreak;
@@ -33,6 +34,8 @@ public class ClickOnTarget : MonoBehaviour
             {
                 //print("Clicked on target");
                 OnClickedTarget?.Invoke(clickedTarget);
+
+                OnClickAddPointsEffect?.Invoke(position);
 
                 OnClickAddSFX?.Invoke(position, scale);
 

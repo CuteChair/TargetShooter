@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,6 +8,8 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
+    public static event Action<float> OnNotifyCurrentPoints;
+
     public static ScoreManager Instance;
 
     [SerializeField] private TextMeshProUGUI ScoreText;
@@ -38,6 +41,7 @@ public class ScoreManager : MonoBehaviour
     private void OnEnable()
     {
         TargetStage.OnAddScore += AddScore;
+        TargetStage.OnAddScore += CalculateNewAmount;
         ClickOnTarget.OnAddToStreak += AddToStreakProgress;
         ClickOnTarget.OnBreakStreak += BreakStreak;
     }
@@ -45,12 +49,19 @@ public class ScoreManager : MonoBehaviour
     private void OnDisable()
     {
         TargetStage.OnAddScore -= AddScore;
+        TargetStage.OnAddScore -= CalculateNewAmount;
         ClickOnTarget.OnAddToStreak -= AddToStreakProgress;
         ClickOnTarget.OnBreakStreak -= BreakStreak;
     }
+
+    private void CalculateNewAmount(float amount)
+    {
+        float pointsGiven = amount * streakModifier;
+
+        OnNotifyCurrentPoints?.Invoke(pointsGiven);
+    }
     private void AddScore(float amount)
     {
-       // print("Adding Score");
         score += amount * streakModifier;
         int scoreRepresentation = Mathf.FloorToInt(score);
         UpdateScoreText(scoreRepresentation);

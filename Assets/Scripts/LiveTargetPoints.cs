@@ -28,7 +28,8 @@ public class LiveTargetPoints : MonoBehaviour
 
     private void OnDisable()
     {
-        
+        liveScoreTxt.alpha = 1;
+        liveScoreShadow.alpha = 1;
     }
 
 

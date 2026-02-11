@@ -5,19 +5,27 @@ using UnityEngine;
 public class SFXManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject ExplosionAnimation;
+    private GameObject explosionAnimationPrefab;
+   
+    [SerializeField]
+    private GameObject pointEffectAnimPrefab;
 
     [SerializeField]
     private List<GameObject> explosionPool = new List<GameObject>();
+
+    [SerializeField]
+    private List<GameObject> pointsEffectPool = new List<GameObject>();
     private void OnEnable()
     {
         ClickOnTarget.OnClickAddSFX += CreateExplosionAtPos;
+        ClickOnTarget.OnClickAddPointsEffect += CreatePointEffects;
         //Explosions.OnEndExplosion += DisableCurrentExplosion;
     }
 
     private void OnDisable()
     {
         ClickOnTarget.OnClickAddSFX -= CreateExplosionAtPos;
+        ClickOnTarget.OnClickAddPointsEffect += CreatePointEffects;
         //Explosions.OnEndExplosion += DisableCurrentExplosion;
     }
 
@@ -42,7 +50,7 @@ public class SFXManager : MonoBehaviour
 
 
 
-       GameObject newExplosion = Instantiate(ExplosionAnimation, pos, Quaternion.identity);
+       GameObject newExplosion = Instantiate(explosionAnimationPrefab, pos, Quaternion.identity);
        newExplosion.transform.localScale = scale;
 
        explosionPool.Add(newExplosion);
@@ -51,6 +59,29 @@ public class SFXManager : MonoBehaviour
 
             //explosionPool.Add(NewExplosionAnim);
        // }
+    }
+
+    private void CreatePointEffects(Vector3 newPos)
+    {
+        if (pointsEffectPool.Count < 0 || pointsEffectPool == null)
+            return;
+
+
+        for (int i = 0; i < pointsEffectPool.Count; i++)
+        {
+            if (!pointsEffectPool[i].activeSelf)
+            {
+                pointsEffectPool[i].transform.position = newPos;
+                pointsEffectPool[i].SetActive(true);
+
+                return;
+            }
+        }
+
+        GameObject newPointEffect = Instantiate(pointEffectAnimPrefab, newPos, Quaternion.identity);
+
+        pointsEffectPool.Add(newPointEffect);
+
     }
 
 
