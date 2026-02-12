@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
-    public static event Action<float> OnNotifyCurrentPoints;
+    //public static event Action<LiveTargetPoints, int> OnReturnPoints;
 
     public static ScoreManager Instance;
 
@@ -21,6 +21,10 @@ public class ScoreManager : MonoBehaviour
     private int streakModifier;
     
     private int currentStreakProgress;
+
+    private int currentGivenPoints;
+
+    private LiveTargetPoints currentRequestTarget;
 
     [SerializeField] private int inRowNeeded;
     [SerializeField] private int maxStreak;
@@ -40,8 +44,8 @@ public class ScoreManager : MonoBehaviour
 
     private void OnEnable()
     {
+        //LiveTargetPoints.OnRequestLivePoints += 
         TargetStage.OnAddScore += AddScore;
-        TargetStage.OnAddScore += CalculateNewAmount;
         ClickOnTarget.OnAddToStreak += AddToStreakProgress;
         ClickOnTarget.OnBreakStreak += BreakStreak;
     }
@@ -49,19 +53,19 @@ public class ScoreManager : MonoBehaviour
     private void OnDisable()
     {
         TargetStage.OnAddScore -= AddScore;
-        TargetStage.OnAddScore -= CalculateNewAmount;
         ClickOnTarget.OnAddToStreak -= AddToStreakProgress;
         ClickOnTarget.OnBreakStreak -= BreakStreak;
     }
 
-    private void CalculateNewAmount(float amount)
+    private void CalculateCurrentGivenPoints(float amout)
     {
-        float pointsGiven = amount * streakModifier;
-
-        OnNotifyCurrentPoints?.Invoke(pointsGiven);
+        int newPoints = Mathf.FloorToInt(amout * streakModifier);
+        currentGivenPoints = newPoints;
     }
     private void AddScore(float amount)
     {
+        CalculateCurrentGivenPoints(amount);
+
         score += amount * streakModifier;
         int scoreRepresentation = Mathf.FloorToInt(score);
         UpdateScoreText(scoreRepresentation);
@@ -109,6 +113,10 @@ public class ScoreManager : MonoBehaviour
 
     }
 
+    public int GetCurrentPoints()
+    {
+        return currentGivenPoints;
+    }
     public int RequestFinalScore()
     {
         int currentScore = Mathf.FloorToInt(score);

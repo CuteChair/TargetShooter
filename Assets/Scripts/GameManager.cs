@@ -35,14 +35,14 @@ public class GameManager : MonoBehaviour
     public void SetTargetCount(int targets)
     {
         targetCount = targets;
-        print("number of targets : " + targetCount);
+        //print("number of targets : " + targetCount);
     }
 
     public void OnRemovedTarget()
     {
         targetCount--;
 
-        print("Remaining targtets : "  + targetCount);
+       // print("Remaining targtets : "  + targetCount);
 
         if (targetCount == 0)
             OnGameEnded();

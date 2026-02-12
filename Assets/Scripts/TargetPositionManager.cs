@@ -40,7 +40,7 @@ public class TargetPositionManager : MonoBehaviour
     }
     private void SetMinMax(Vector3 min, Vector3 max)
     {
-        print($"Setting min : {min} | max : {max}");
+        //print($"Setting min : {min} | max : {max}");
 
         Min = min;
         Max = max;

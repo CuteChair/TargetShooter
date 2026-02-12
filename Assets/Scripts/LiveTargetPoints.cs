@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -23,11 +24,12 @@ public class LiveTargetPoints : MonoBehaviour
 
     private void OnEnable()
     {
-        print(liveScoreTxt.alpha);
+        SetLivePoints(ScoreManager.Instance.GetCurrentPoints());
     }
 
     private void OnDisable()
     {
+        
         liveScoreTxt.alpha = 1;
         liveScoreShadow.alpha = 1;
     }
@@ -47,5 +49,11 @@ public class LiveTargetPoints : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+
+    private void SetLivePoints(int points)
+    {
+        liveScoreTxt.text = $"+{points.ToString()}pts";
+    }
+
 
 }

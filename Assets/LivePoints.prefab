@@ -120,7 +120,7 @@ MonoBehaviour:
   liveScoreTxt: {fileID: 607054717744430496}
   liveScoreShadow: {fileID: 2349929197047157998}
   upwardVelocity: 0.5
-  alphaTime: 0.005
+  alphaTime: 0.0025
 --- !u!1 &4530113804923660119
 GameObject:
   m_ObjectHideFlags: 0

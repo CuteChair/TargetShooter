@@ -41,7 +41,7 @@ public class SFXManager : MonoBehaviour
                     explosionPool[i].transform.localScale = scale;
                     explosionPool[i].SetActive(true);
 
-                    print("Reused : " + explosionPool[i].name);
+                    //print("Reused : " + explosionPool[i].name);
 
                     return;
                 }
@@ -55,7 +55,7 @@ public class SFXManager : MonoBehaviour
 
        explosionPool.Add(newExplosion);
 
-        print("No available explosion, created one. Explosion count : " + explosionPool.Count);
+        //print("No available explosion, created one. Explosion count : " + explosionPool.Count);
 
             //explosionPool.Add(NewExplosionAnim);
        // }
